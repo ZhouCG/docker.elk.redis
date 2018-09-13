@@ -3,9 +3,11 @@
 
 1. Copy the logback-spring.xml file to your app/resource/
 2. Add the follows content to your application.yml or application.properties:
-  spring.profiles.active=dev
-  spring.application.name=serviceaccount
-  logging.path=/XXXXXXXX/XXXX/
+```properties
+spring.profiles.active=dev
+spring.application.name=serviceaccount
+logging.path=/XXXXXXXX/XXXX/
+```
 
 3. Add one env to your PC, like: export ELK_DIR=/Users/XXX/docker_es_redis
 4. Go to the directory where the docker-compose.yml exist, then run docker-compose up -d
