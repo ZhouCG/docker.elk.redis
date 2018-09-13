@@ -8,8 +8,8 @@ This is about how to use docker build elk+redis
   <br>
   #This is the path you want to save the log file
   logging.path=/XXXXXXXX/XXXX/
+ 
 3. Add one env to your PC, like: export ELK_DIR=/Users/XXX/docker_es_redis
-
 4. Go to the directory where the docker-compose.yml exist, then run docker-compose up -d
 5. Check the logs by enter: 
    docker-compose logs -f
