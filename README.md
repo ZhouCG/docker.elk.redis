@@ -5,7 +5,8 @@ This is about how to use docker build elk+redis
 2. Add the follows content to your application.yml or application.properties:
   spring.profiles.active=dev
   spring.application.name=serviceaccount
- \n#This is the path you want to save the log file
+  <br>
+  #This is the path you want to save the log file
   logging.path=/XXXXXXXX/XXXX/
 3. Add one env to your PC, like: export ELK_DIR=/Users/XXX/docker_es_redis
 
