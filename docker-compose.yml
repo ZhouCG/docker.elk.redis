@@ -1,0 +1,87 @@
+version: '2.2'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.0
+    container_name: elasticsearch
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - $ELK_DIR/esdata1:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    restart: always
+    networks:
+      - esnet
+  elasticsearch2:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.0
+    container_name: elasticsearch2
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.zen.ping.unicast.hosts=elasticsearch"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - $ELK_DIR/esdata2:/usr/share/elasticsearch/data
+    restart: always
+    networks:
+      - esnet
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.4.0
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    ports:
+      - 5601:5601
+    restart: always
+    networks:
+      - esnet
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:6.4.0
+    command: logstash -f /etc/logstash/conf.d/logstash.conf
+    volumes:
+      - $PWD/logstash.conf:/etc/logstash/conf.d/logstash.conf
+      - $ELK_DIR/log:/tmp
+    container_name: logstash
+    hostname: logstash
+    ports:
+      - 5043:5043 
+      - 4567:4567
+    restart: always
+    networks:
+      - esnet
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - $ELK_DIR/redis_data:/data
+    restart: always
+    networks:
+      - esnet
+
+
+volumes:
+  redis_data:
+    driver: local
+  esdata1:
+    driver: local
+  esdata2:
+    driver: local
+
+networks:
+  esnet:
