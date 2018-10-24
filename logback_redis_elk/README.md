@@ -1,6 +1,23 @@
 # logback+elk+redis
 ## This is about how to use docker build elk+redis
 
+Dependencies:
+
+```xml
+<dependency>
+    <groupId>net.logstash.logback</groupId>
+    <artifactId>logstash-logback-encoder</artifactId>
+    <version>4.11</version>
+</dependency>
+
+<dependency>
+    <groupId>com.cwbase</groupId>
+    <artifactId>logback-redis-appender</artifactId>
+    <version>1.1.5</version>
+</dependency>
+
+```
+
 1. Copy the logback-spring.xml file to your app/resource/
 2. Add the follows content to your application.yml or application.properties:
 ```properties
